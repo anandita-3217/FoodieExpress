@@ -5,21 +5,6 @@ FoodieExpress is a food delivery web application that connects customers, restau
 The platform allows users to browse restaurants, explore menus, place orders, and track them in real time. 
 Built using Django, HTML, CSS, and JavaScript, FoodieExpress offers a seamless and user-friendly experience designed to enhance food delivery efficiency
 
-
-## Distinctiveness and Complexity
-I believe FoodieExpress is unique from other projects in this course and is more complex for the following reasons:
-
-- **User Roles**: The application incorporates three distinct user roles: customers, restaurant owners, and delivery partners. Each role has specialized features and interfaces, making the integration process challenging.
-
-- **Dynamic Order Management**: Orders placed by customers are dynamically assigned to delivery partners based on their real-time availability, showcasing the complexity of managing live data interactions and logic.  
-
-- **Advanced Search and Filters**: Users can search for restaurants and dishes with advanced filters, such as selecting vegetarian-only options or filtering by cuisine type.  
-
-- **Profile Management**: Users can manage their profiles by updating personal details, reviewing order histories, and customizing preferences. 
-
-- **Real-time Order Tracking**: The application includes real-time order tracking, enabling customers to follow their order status from placement to delivery.
-
-
 ## File Structure
  - **foodieExpress**: Is the main directory that conatains the neccessary files such as settings.py and urls.py 
     
