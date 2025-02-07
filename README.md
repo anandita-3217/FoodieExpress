@@ -1,11 +1,12 @@
 # FoodieExpress - A Food Delivery Web Application
-
+![BasicIdea](https://github.com/user-attachments/assets/02f11ab5-d261-4100-92c7-ef775bb0105b)
 ## Description
 FoodieExpress is a food delivery web application that connects customers, restaurants and delivery partners.
 The platform allows users to browse restaurants, explore menus, place orders, and track them in real time. 
 Built using Django, HTML, CSS, and JavaScript, FoodieExpress offers a seamless and user-friendly experience designed to enhance food delivery efficiency
 
 ## File Structure
+
  - **foodieExpress**: Is the main directory that conatains the neccessary files such as settings.py and urls.py 
     
  - **core**: Is the main application directory.
@@ -93,3 +94,4 @@ python manage.py runserver
 - Order pickup and delivery management
 - Earnings tracking
 - Route optimization suggestions
+
