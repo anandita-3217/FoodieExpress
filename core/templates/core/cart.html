@@ -1,0 +1,114 @@
+{% extends "core/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container-fluid mt-4">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-dark">
+                    <h3 class="text-accent mb-0">Your Cart</h3>
+                </div>
+                <div class="card-body">
+                    {% if request.session.cart %}
+                    
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Price</th>
+                                        <th class="mx-2">Quantity</th>
+                                        
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item_id, item in request.session.cart.items %}
+                                    <tr>
+                                        <td>{{ item.name }}</td>
+                                        <td>₹{{ item.price }}</td>
+                                        <td>
+                                            <div class="quantity-controls">
+                                                <button class="btn btn-sm btn-outline-secondary update-quantity" 
+                                                        data-item-id="{{ item_id }}" 
+                                                        data-action="decrease">-</button>
+                                                <span class="mx-2">{{ item.quantity }}</span>
+                                                <button class="btn btn-sm btn-outline-secondary update-quantity" 
+                                                        data-item-id="{{ item_id }}" 
+                                                        data-action="increase">+</button>
+                                            </div>
+                                        </td>
+                                       
+                                        <td>
+                                            <button class="btn btn-danger btn-sm remove-item" 
+                                                    data-item-id="{{ item_id }}">
+                                                Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        
+                        <div class="text-center py-4">
+                            <h4>Your cart is empty</h4>
+                            <a href="{% url 'restaurant_list' %}" class="btn btn-accent mt-3">Browse Restaurants</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            {% if request.session.cart %}
+            <div class="card shadow">
+                <div class="card-header bg-dark">
+                    <h4 class="text-accent mb-0">Order Summary</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Subtotal:</span>
+                        <span class="cart-subtotal">₹{{ cart_total }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Delivery Fee:</span>
+                        <span>₹{{ delivery_fee }}</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-3">
+                        <strong>Total:</strong>
+                        <strong class="cart-total">₹{{ total_with_delivery }}</strong>
+                    </div>
+                    <button class="btn btn-accent w-100" id="checkout-button">
+                        Place order
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    
+    .btn-accent {
+        color: #f8f9fa;
+        background-color: #ff6b00;
+    }
+    .text-accent {
+        color: #ff6b00;
+    }
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+{% endblock %}
+
+

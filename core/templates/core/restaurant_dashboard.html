@@ -1,0 +1,91 @@
+{% extends "core/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container-fluid py-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-accent">
+                    <h4>Order Dashboard</h4>
+                </div>
+                <div class="card-body">
+                   
+                    <div class="mb-3 text-center">
+                        <div class="btn-group" role="group" aria-label="Order Filters">
+                            <input type="checkbox" class="btn-check" id="filter-received" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="filter-received">Received</label>
+
+                            <input type="checkbox" class="btn-check" id="filter-picked-up" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="filter-picked-up">Picked Up</label>
+
+                            <input type="checkbox" class="btn-check" id="filter-delivered" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="filter-delivered">Delivered</label>
+                        </div>
+                    </div>
+                    <hr>
+                    <div id="orders-container">
+                        {% for order in orders %}
+                        <div class="card shadow-sm mb-3 order-card" data-status="{{ order.status|lower }}">
+                            <div class="card-body">
+                                <p><strong>Order Id:</strong> {{ order.id }}</p>
+                                <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+                                <p><strong>Total Amount:</strong> ₹{{ order.total_amount }}</p>
+                                <p><strong>Created At:</strong> {{ order.created_at }}</p>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="alert alert-accent text-center">
+                            No orders available.
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.text-accent {
+    color: #ff6b00;
+}
+.bg-accent {
+    background-color: #ff6b00;
+}
+.alert-accent {
+    color: #ff6b00;
+    background-color: #ffe1cc;
+    border: 0.5px solid #ff6b00;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const ordersContainer = document.getElementById("orders-container");
+    const checkboxes = document.querySelectorAll(".btn-check");
+
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+
+            const selectedFilters = Array.from(checkboxes)
+                .filter((box) => box.checked)
+                .map((box) => box.id.replace("filter-", ""));
+
+            
+            const orders = ordersContainer.querySelectorAll(".order-card");
+            orders.forEach((order) => {
+                const orderStatus = order.getAttribute("data-status");
+                
+                
+                if (selectedFilters.length === 0 || selectedFilters.includes(orderStatus)) {
+                    order.style.display = "block";
+                } else {
+                    order.style.display = "none";
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

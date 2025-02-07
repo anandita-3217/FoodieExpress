@@ -1,0 +1,91 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+{% block title %}Delivery Partner Profile{% endblock %}
+
+{% block body %}
+<div class="container-fluid py-3">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-accent d-flex justify-content-between align-items-center">
+                    <h4 class="card-title mb-0">{{user.username}}'s Profile</h4>
+                    <button type="button" class="btn btn-accent" id="editButton">
+                        <i class="bi bi-person-gear"></i>
+                        Edit Profile
+                    </button>
+
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                    </div>
+                    <div id="profileData">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <p class="profile-text">{{ request.user.username }}</p>
+                            </div>
+                            <hr>
+                            <label class="form-label">First Name</label>
+                            <p class="profile-text">{{ request.user.first_name }}</p>
+                            <hr>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Last Name</label>
+                            <p class="profile-text">{{ request.user.last_name }}</p>
+                            <hr>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <p class="profile-text">{{ request.user.email }}</p>
+                            <hr>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <p class="profile-text">{{ request.user.phone_number }}</p>
+                            <hr>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            <p class="profile-text">{{ request.user.address }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+        .btn-accent{
+        background-color: #ff6b00;
+        color: #f8f9fa;
+    }
+    .text-accent{
+    color: #ff6b00;
+
+    }
+    .bg-accent{
+        background-color: #ff6b00;
+
+    }
+    .alert-accent{
+        color: #ff6b00;
+        background-color: #ffe1cc;
+        border: 0.5px solid #ff6b00;
+
+    }
+    input.form-control{
+        border: 1px solid #dee2e6;
+        resize: none;
+    }
+    input.form-control:focus{
+        border-color: #ff6b00;
+        box-shadow: 0 0 0 0.25rem rgba(230,106,0,0.25);
+        
+    }
+</style>
+{% endblock %}
+
+{% block script %}
+        <script src="{% static 'core/delivery_profile.js' %}"></script>
+        {% endblock %}

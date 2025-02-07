@@ -1,0 +1,71 @@
+{% extends "core/layout.html" %}
+
+{% block body %}
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center ">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm mt-5" style="width: 18rem;">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0 d-flex justify-content-center text-accent align-items-center">
+                        <i class="bi bi-truck fs-4 me-2"></i>
+                        <span style="text-align: center;">FoodieExpress</span>
+                    </h4>
+                </div>
+                <div class="card-body mt-3">
+                    {% if message %}
+                        <div class="alert alert-danger text-center mt-3">{{ message }}</div>
+                    {% endif %}
+                    <form action="{% url 'login' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+                        <div class="mb-3">
+                            <input autofocus class="username form-control" type="text" name="username" placeholder="Username">
+                        </div>
+                        <div class="mb-3">
+                            <input class="password form-control" type="password" name="password" placeholder="Password">
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-dark" type="submit" >
+                                <i class="bi bi-box-arrow-in-right me-1"></i>
+                                Login
+                               
+                            </button>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+           
+            <div class="card mt-3" style="width: 18rem;">
+                <div class="card-text mt-3">
+                    <p class="text-center mb-0">Don't have an account?</p>
+                    <p class="text-center">
+                        <a href="{% url 'register' %}" class="link-dark">Register here.</a>
+
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .text-accent{
+        color: #ff6b00;
+    }
+    .bg-accent{
+        background-color: #ff6b00;
+    }
+    input.form-control{
+        border: 1px solid #dee2e6;
+        resize: none;
+    }
+    input.form-control:focus{
+        border-color: #ff6b00;
+        box-shadow: 0 0 0 0.25rem rgba(230,106,0,0.25);
+        
+    }
+   
+</style>
+{% endblock %}

@@ -1,0 +1,231 @@
+{% extends "core/layout.html" %}
+{% load static %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row justify-content-center vh-100 d-flex align-items-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm mt-5" style="width: 30rem;">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0 d-flex justify-content-center align-items-center">
+                        <i class="bi bi-truck fs-4 me-2"></i>
+                        <span class="text-center">FoodieExpress</span>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% if form.errors %}
+                        <div class="alert alert-danger text-center mt-3">
+                            Please correct the errors below.
+                        </div>
+                    {% endif %}
+                    
+                    <form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                       
+                        <div class="mb-3">
+                            <label class="form-label">Welcome, Who will you be signing up with us as today? </label>
+                            <div class="user-type-radio">
+                                {% for radio in form.user_type %}
+                                <div class="form-check">
+                                    {{ radio.tag }}
+                                    <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                        {{ radio.choice_label }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {{ form.user_type.errors }}
+                        </div>
+
+                        
+                        <div id="registration-fields" style="display: none;">
+                           
+                            <div class="mb-3">
+                                {{ form.username }}
+                                {{ form.username.errors }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.email }}
+                                {{ form.email.errors }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.password1 }}
+                                {{ form.password1.errors }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.password2 }}
+                                {{ form.password2.errors }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.phone_number }}
+                                {{ form.phone_number.errors }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.address }}
+                                {{ form.address.errors }}
+                            </div>
+
+                            
+                            <div id="restaurant-fields" style="display: none;">
+                                <div class="mb-3">
+                                    {{ form.restaurant_name }}
+                                    {{ form.restaurant_name.errors }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form.restaurant_description }}
+                                    {{ form.restaurant_description.errors }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form.cuisine }}
+                                    {{ form.cuisine.errors }}
+                                </div>
+                                <div class="mb-3 form-check">
+                                    {{ form.is_pure_veg }}
+                                    <label class="form-check-label" for="{{ form.is_pure_veg.id_for_label }}">
+                                        Pure Vegetarian Restaurant
+                                    </label>
+                                    {{ form.is_pure_veg.errors }}
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Restaurant Photo</label>
+                                    {{ form.restaurant_photo }}
+                                    {{ form.restaurant_photo.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button class="btn btn-dark" type="submit" value="Register">
+                                <i class="bi bi-person-plus"></i>
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card mt-3" style="width: 30rem;">
+                <div class="card-text mt-3">
+                    <p class="text-center mb-0">Have an account?</p>
+                    <p class="text-center">
+                        <a href="{% url 'login' %}" class="link-dark">Log In here.</a>    
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.user-type-radio {
+  position: relative;
+  display: flex;
+  border-radius: 0.5rem;
+  background-color: #ff6b00;
+  box-sizing: border-box;
+  font-size: 14px;
+  width: 100%;
+  padding: 1rem 1rem 0 1rem;
+  margin-top: 0.5rem;
+}
+
+.user-type-radio .form-check {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  transition: transform 0.2s ease-in-out;
+
+}
+
+.user-type-radio .form-check input[type="radio"] {
+  display: none;
+}
+
+.user-type-radio .form-check-label {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  color: #1d1d29;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+
+  position: relative;
+  width: 100%;
+}
+
+.user-type-radio .form-check input[type="radio"]:checked + .form-check-label {
+  background-color: #fff;
+  font-weight: 600;
+
+
+}
+
+.user-type-radio .form-check input[type="radio"] + .form-check-label:hover {
+  color: #fff;
+}
+
+.user-type-radio .form-check input[type="radio"]:checked + .form-check-label:hover {
+  color: #ff6b00;
+}
+.user-type-radio .form-check input[type="radio"]:checked + .form-check-label:focus {
+  color: #ff6b00;
+}
+
+.user-type-radio .form-check input[type="radio"]:checked + .form-check-label::after,
+.user-type-radio .form-check input[type="radio"]:checked + .form-check-label::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #ff6b00;
+  bottom: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+}
+
+.user-type-radio .form-check input[type="radio"]:checked + .form-check-label::after {
+  right: -10px;
+  border-bottom-left-radius: 300px;
+  box-shadow: -3px 3px 0px 3px #fff;
+}
+
+.user-type-radio .form-check input[type="radio"]:checked + .form-check-label::before {
+  left: -10px;
+  border-bottom-right-radius: 300px;
+  box-shadow: 3px 3px 0px 3px #fff;
+}
+.user-type-radio .form-check-label:active {
+
+  transform: scale(0.98);
+  color: #ff6b00!important;
+}
+input.form-control:focus{
+    border-color: #ff6b00;
+    box-shadow: 0 0 0 0.25rem rgba(230,106,0,0.25);
+        
+    }
+textarea.form-control:focus{
+    border-color: #ff6b00;
+box-shadow: 0 0 0 0.25rem rgba(230,106,0,0.25);
+}
+
+.form-check input[type="checkbox"]:focus{
+    border-color: #ff6b00;
+    box-shadow: 0 0 0 0.25rem rgba(230,106,0,0.25);
+    
+ }
+.form-check input[type="checkbox"]:checked{
+    background-color: #ff6b00;
+    border-color: #ff6b00;
+    
+ }
+</style>
+
+{% block script %}
+        <script src="{% static 'core/core.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

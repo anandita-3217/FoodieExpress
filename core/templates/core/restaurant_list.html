@@ -1,0 +1,76 @@
+{% extends "core/layout.html" %}
+{% load static %}
+{% block title %}Restaurants{% endblock %}
+{% block body %}
+<div class="container-fluid py-3">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-sm">
+            <div class="card-header bg-dark text-color-accent">
+                <h4 class="text-start">Restaurants</h4>
+            </div>
+            <div class="card-body">
+                <form class="d-flex mb-4" method="GET">
+                    <input class="form-control me-2" type="search" name="q" placeholder="Search restaurants..." value="{{ request.GET.q }}">
+                    <button class="btn btn-accent" type="submit">Search</button>
+                </form>
+                <hr class="w-100">
+                <div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+                    {% for restaurant in restaurants %}
+                        <div class="col">
+                            <div class="card shadow-sm h-100">
+                                
+                                    {% if restaurant.photo %}
+                                        <div class="card-img-top-container" style="height: 200px; overflow: hidden;">
+                                            <img src="{{ restaurant.photo }}" alt="{{ restaurant.name }}" class="card-img-top">
+                                        </div>
+                                    {% else %}
+                                        <div class="card-img-top d-flex justify-content-center align-items-center bg-light" style="height: 200px; overflow: hidden;">
+                                            <i class="bi bi-image text-muted" style="font-size: 6rem;"></i>
+                                        </div>
+                                        
+                                    {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ restaurant.name }}</h5>
+                                    <p class="card-text">{{ restaurant.description|truncatewords:20 }}</p>
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            Cuisine: {{ restaurant.cuisine }}
+                                            {% if restaurant.is_pure_veg %}
+                                                <span class="badge bg-success">Pure Veg</span>
+                                            {% endif %}
+                                        </small>
+                                    </p>
+                                    <a href="{% url 'restaurant_detail' restaurant.pk %}" class="btn btn-accent">View Menu</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="col">
+                            <p>No restaurants found.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+
+
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<style>
+    .btn-accent{
+        background-color: #ff6b00;
+        color: #f8f9fa;
+    }
+
+.text-color-accent {
+    color: #ff6b00;
+}
+
+</style>
+{% endblock %}

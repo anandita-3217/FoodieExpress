@@ -1,0 +1,131 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+{% block title %}Delivery Partner Dashboard{% endblock %}
+
+{% block body %}
+<div class="container-fluid py-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-dark text-accent">
+                    <h4>Delivery Partner Dashboard</h4>
+                </div>
+                <div class="card-body">
+                    {% if current_restaurant %}
+                    <div class="alert alert-accent">
+                        <h5 class="mb-2">Current Restaurant</h5>
+                        <p class="mb-1"><strong>{{ current_restaurant.name }}</strong></p>
+                        <p class="mb-0 text-muted">{{ current_restaurant.cuisine }}</p>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-warning">
+                        <h5 class="mb-2">Not Registered</h5>
+                        <p class="mb-2">You are not registered with any restaurant.</p>
+                        <a href="{% url 'delivery_partner_registration' %}" 
+                           class="btn btn-accent">
+                            Register with Restaurant
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-muted mb-3">Total Deliveries</h5>
+                            <h2 class="text-accent mb-0">{{ total_deliveries }}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-muted mb-3">Total Earnings</h5>
+                            <h2 class="text-accent mb-0">₹{{ total_earnings }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+         
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-accent">
+                    <h4>Quick Actions</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-3">
+                        {% if current_restaurant %}
+                        <a href="{% url 'delivery_partner_registration' %}" 
+                           class="btn btn-outline-accent">
+                            Change Restaurant
+                        </a>
+                        {% endif %}
+                        <button onclick="toggleAvailability()" 
+                        id="availabilityBtn"
+                        class="btn btn-accent"
+                        data-available="{{ is_available|lower }}">
+                    Toggle Availability
+                </button>
+                    </div>
+                   
+                    <div id="statusAlert" class="alert mt-3 d-none"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-accent {
+        color: #ff6b00;
+    }
+    .bg-accent {
+        background-color: #ff6b00;
+    }
+    .alert-accent {
+        color: #ff6b00;
+        background-color: #ffe1cc;
+        border: 0.5px solid #ff6b00;
+    }
+    .btn-accent {
+        background-color: #ff6b00;
+        color: #ffffff;
+        border: none;
+    }
+    .btn-accent:hover {
+        background-color: #e65c00;
+        color: #ffffff;
+    }
+    .btn-outline-accent {
+        color: #ff6b00;
+        border-color: #ff6b00;
+    }
+    .btn-outline-accent:hover {
+        background-color: #ff6b00;
+        color: #ffffff;
+    }
+    .card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+    .spinner-border.text-accent {
+        color: #ff6b00;
+    }
+    @media (max-width: 768px) {
+        .col-md-6 {
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'core/delivery_dashboard.js' %}"></script>
+{% endblock %}

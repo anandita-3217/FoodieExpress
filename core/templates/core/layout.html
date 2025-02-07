@@ -1,0 +1,271 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block extra_head %}{% endblock %}
+        <title>{% block title %}FoodieExpress{% endblock %}</title>
+        
+        <meta name="user-type" content="{{ user.user_type }}">
+        <meta name="csrf-token" content="{{ csrf_token }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+        <link href="{% static 'core/styles.css' %}" rel="stylesheet">
+        <style>
+            :root {
+            --accent-color: #ff6b00;
+            }
+            body {
+                overflow-x: hidden;
+            }
+
+        .bg-accent{
+            background-color: #ff6b00;
+        }
+            .nav-link:focus,.dropdown-toggle:focus,.nav-link:hover {
+                color: var(--accent-color) !important;
+            }
+            .dropdown-item:focus{
+                background-color: var(--accent-color) !important;
+
+            }
+        
+            .brand-text {
+                color: var(--accent-color) !important;
+            }
+
+            .sidebar-wrapper {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: 16.66667%;
+                background-color: #212529;
+                z-index: 1000;
+            }
+
+            .sidebar-content {
+                height: 100vh;
+                overflow-y: auto;
+            }
+
+            .main-content-wrapper {
+                margin-left: 16.66667%;
+                width: calc(100% - 16.66667%);
+                min-height: 100vh;
+            }
+
+            @media (max-width: 768px) {
+                .sidebar-wrapper {
+                    width: 4.5rem;
+                }
+                .main-content-wrapper {
+                    margin-left: 4.5rem;
+                    width: calc(100% - 4.5rem);
+                }
+            }
+
+            .sidebar-content::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .sidebar-content::-webkit-scrollbar-track {
+                background: #212529;
+            }
+
+            .sidebar-content::-webkit-scrollbar-thumb {
+                background: #666;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        {% csrf_token %}
+<input type="hidden" name="csrftoken" value="{{ csrf_token }}">
+        <div class="sidebar-wrapper">
+            <div class="sidebar-content d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white">
+                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <i class="bi bi-truck fs-4 me-2 brand-text"></i>
+                    <span class="fs-5 d-none d-sm-inline brand-text">FoodieExpress</span>
+                </a>
+                <hr class="w-100">
+                
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    {% if user.is_authenticated %}
+                    {% if user.user_type == 'restaurant' %}
+                    <li class="nav-item">
+                        <a href="{% url 'restaurant_profile' %}" class="nav-link align-middle px-0 text-white">
+                            <i class="fs-4 bi bi-shop"></i>
+                            <span class="ms-1 d-none d-sm-inline">{{user.username}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-middle px-0 text-white" href="{% url 'restaurant_menu' %}">
+                            <i class="fs-4 bi bi-grid-3x3-gap"></i>
+                            <span class="ms-1 d-none d-sm-inline">Menu</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-middle px-0 text-white" href="{% url 'menu_item_add' %}">
+                            <i class="fs-4 bi bi-plus-square"></i>
+                            <span class="ms-1 d-none d-sm-inline">Add Dish</span>
+                        </a>
+                    </li>
+                    <li class="nav-item"> 
+                        <a class="nav-link align-middle px-0 text-white" href="{% url 'restaurant_dashboard' %}">
+                            <i class="fs-4 bi bi-bag"></i>
+                            <span class="ms-1 d-none d-sm-inline">Order Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'restaurant_order_history' %}" class="nav-link align-middle px-0 text-white">
+                            <i class="fs-4 bi bi-card-checklist"></i>
+                            <span class="ms-1 d-none d-sm-inline">Order History</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="{% url 'latest_order_tracking' %}" class="nav-link align-middle px-0 text-white">
+                            <i class="fs-4 bi bi-sort-down-alt"></i>
+                            <span class="ms-1 d-none d-sm-inline">Order Tracking</span>
+                        </a>
+                    </li>
+
+                    {% elif user.user_type == 'delivery_partner' %}
+                    <li class="nav-item">
+                        <a href="{% url 'delivery_profile' %}" class="nav-link align-middle px-0 text-white">
+                            <i class="fs-4 bi bi-person-circle"></i>
+                            <span class="ms-1 d-none d-sm-inline">{{user.username}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-middle px-0 text-white" href="{% url 'delivery_partner_dashboard' %}">
+                            <i class="fs-4 bi bi-speedometer2"></i>
+                            <span class="ms-1 d-none d-sm-inline">Dashboard</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="{% url 'latest_order_tracking' %}" class="nav-link align-middle px-0 text-white">
+                            <i class="fs-4 bi bi-sort-down-alt"></i>
+                            <span class="ms-1 d-none d-sm-inline">Order Tracking</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'delivery_orders' %}" class="nav-link align-middle px-0 text-white">
+                            <i class="fs-4 bi bi-bag"></i>
+                            <span class="ms-1 d-none d-sm-inline">Order History</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="{% url 'delivery_partner_registration' %}" class="nav-link align-middle px-0 text-white">
+                            <i class="fs-4 bi bi-clipboard-check"></i>
+                            <span class="ms-1 d-none d-sm-inline">Restaurant Registration </span>
+                        </a>
+                    </li>
+                   
+                    {% else %}
+                        <li class="nav-item">
+                            <a href="{% url 'restaurant_list'%}" class="nav-link align-middle px-0 text-white">
+                                <i class="fs-4 bi bi-shop"></i>
+                                <span class="ms-1 d-none d-sm-inline">All Restaurants</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'search' %}" class="nav-link align-middle px-0 text-white">
+                                <i class="fs-4 bi bi-search"></i>
+                                <span class="ms-1 d-none d-sm-inline">Search</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'customer_profile' %}" class="nav-link align-middle px-0 text-white">
+                                <i class="fs-4 bi bi-person-circle"></i>
+                                <span class="ms-1 d-none d-sm-inline">{{user.username}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'latest_order_tracking' %}" class="nav-link align-middle px-0 text-white">
+                                <i class="fs-4 bi bi-sort-down-alt"></i>
+                                <span class="ms-1 d-none d-sm-inline">Order Tracking</span>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a href="{% url 'customer_order_history' %}" class="nav-link align-middle px-0 text-white">
+                                <i class="fs-4 bi bi-card-checklist"></i>
+                                <span class="ms-1 d-none d-sm-inline">Order History</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'view_cart' %}" class="nav-link align-middle px-0 text-white">
+                                    <i class="fs-4 bi bi-cart"></i>
+                                    <span class="ms-1 d-none d-sm-inline">Cart &nbsp;<span class="cart-count badge bg-accent">{{ request.session.cart|length|default:0 }}</span></span>
+                            </a>
+                        </li>
+                        
+
+                        {% endif %}
+                        
+                        
+                    {% endif %}
+                </ul>
+                
+                <hr class="w-100">
+                
+                <div class="dropdown pb-4">
+                    {% if request.user.is_authenticated %}
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdown.user1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-list"></i>
+                            <span class="d-none d-sm-inline mx-1">More</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'logout' %}">
+                                    <i class="bi bi-box-arrow-right"></i> Log out
+                                </a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <div class="d-flex flex-column">
+                            <a href="{% url 'login' %}" class="nav-link px-0 text-white">
+                                <i class="fs-4 bi-box-arrow-in-right"></i> 
+                                <span class="ms-1 d-none d-sm-inline">Log In</span>
+                            </a>
+                            <a href="{% url 'register' %}" class="nav-link px-0 text-white">
+                                <i class="fs-4 bi-person-plus"></i> 
+                                <span class="ms-1 d-none d-sm-inline">Register</span>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="main-content-wrapper">
+            
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% block body %}
+            {% endblock %}
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+        {% block script %}
+        <script src="{% static 'core/core.js' %}"></script>
+        {% endblock %}
+    </body>
+</html>
